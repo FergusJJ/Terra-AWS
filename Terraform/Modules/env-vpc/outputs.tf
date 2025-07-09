@@ -10,7 +10,7 @@ output "vpc_cidr_block" {
 
 output "subnet_ids" {
   description = "Subnet IDs"
-  value       = aws_subnet.subnet[*].id
+  value       = [for i in range(length(local.subnet_with_type_index)) : aws_subnet.subnet[tostring(i)].id]
 }
 
 output "public_subnet_ids" {

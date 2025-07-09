@@ -6,7 +6,7 @@
 locals {
   subnet_with_type_index = {
     for i in range(length(var.subnet_cidrs)) :
-    i => {
+    tostring(i) => {
       cidr_block        = var.subnet_cidrs[i]
       availability_zone = var.azs[i % length(var.azs)]
       type              = var.subnet_types[i]
