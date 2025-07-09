@@ -74,14 +74,13 @@ variable "private_routes" {
 variable "egress_rules" {
   description = "List of egress rules"
   type = map(object({
-    from_port         = number
-    to_port           = number
-    protocol          = string
-    cidr_blocks       = optional(list(string), [])
-    ipv6_cidr_blocks  = optional(list(string), [])
-    security_group_id = string
-    self              = optional(bool, false)
-    description       = optional(string, "")
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_blocks      = optional(list(string), [])
+    ipv6_cidr_blocks = optional(list(string), [])
+    self             = optional(bool, false)
+    description      = optional(string, "")
   }))
   default = {}
 }
@@ -89,14 +88,13 @@ variable "egress_rules" {
 variable "ingress_rules" {
   description = "List of ingress rules"
   type = map(object({
-    from_port         = number
-    to_port           = number
-    protocol          = string
-    cidr_blocks       = optional(list(string), [])
-    ipv6_cidr_blocks  = optional(list(string), [])
-    security_group_id = string
-    self              = optional(bool, false)
-    description       = optional(string, "")
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_blocks      = optional(list(string), [])
+    ipv6_cidr_blocks = optional(list(string), [])
+    self             = optional(bool, false)
+    description      = optional(string, "")
   }))
   default = {}
 }
