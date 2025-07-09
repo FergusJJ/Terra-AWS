@@ -1,5 +1,5 @@
 resource "aws_security_group" "security_group" {
-  vpc_id = aws_vpc.vpc
+  vpc_id = aws_vpc.vpc.id
   tags = merge(var.tags, {
     Terraform   = "true"
     Environment = var.deploy_env
@@ -23,7 +23,7 @@ resource "aws_security_group_rule" "ingress" {
 }
 
 resource "aws_security_group_rule" "egress" {
-  for_each = var.ingress_rules
+  for_each = var.egress_rules
 
   type = "egress"
 
