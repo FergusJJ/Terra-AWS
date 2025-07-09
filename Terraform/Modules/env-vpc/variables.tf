@@ -40,6 +40,11 @@ variable "subnet_types" {
 }
 //igw.tf
 
+variable "create_nat_gateway" {
+  description = "Whether to create a NAT gateway"
+  type        = bool
+}
+
 variable "public_routes" {
   description = "A list of public routes (cidr_block, network_interface_id)"
   type = map(object({
