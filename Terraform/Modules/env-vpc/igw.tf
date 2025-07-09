@@ -9,6 +9,12 @@ resource "aws_internet_gateway" "igw" {
   })
 }
 
+resource "aws_route" "public_internet_route" {
+  route_table_id         = aws_route_table.public_route_table.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.igw.id
+}
+
 resource "aws_eip" "nat" {
   count  = var.create_nat_gateway ? 1 : 0
   domain = "vpc"
@@ -28,8 +34,13 @@ resource "aws_nat_gateway" "nat_gateway" {
     Terraform = "true"
     Name      = "${var.deploy_env}-nat"
   })
+}
 
-
+resource "aws_route" "priavte_nat_route" {
+  count                  = var.create_nat_gateway ? 1 : 0
+  route_table_id         = aws_route_table.private_route_table.id
+  destination_cidr_block = "0.0.0.0/0" // all outbound IPs
+  gateway_id             = aws_internet_gateway.igw.id
 }
 
 resource "aws_route_table" "public_route_table" {
@@ -62,7 +73,7 @@ resource "aws_route" "public_route" {
   network_interface_id   = each.value.network_interface_id
 }
 
-resource "aws_route" "private_routes" {
+resource "aws_route" "private_route" {
   for_each = var.private_routes
 
   route_table_id         = aws_route_table.private_route_table.id

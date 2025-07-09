@@ -19,7 +19,7 @@ resource "aws_security_group_rule" "ingress" {
   cidr_blocks      = each.value.cidr_blocks
   ipv6_cidr_blocks = each.value.ipv6_cidr_blocks
 
-  security_group_id = each.value.security_group_id
+  security_group_id = aws_security_group.security_group.id
 }
 
 resource "aws_security_group_rule" "egress" {
@@ -34,5 +34,5 @@ resource "aws_security_group_rule" "egress" {
   cidr_blocks      = each.value.cidr_blocks
   ipv6_cidr_blocks = each.value.ipv6_cidr_blocks
 
-  security_group_id = each.value.security_group_id
+  security_group_id = aws_security_group.security_group.id
 }
