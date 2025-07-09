@@ -30,10 +30,30 @@ variable "subnet_cidrs" {
   type        = list(string)
 }
 
+variable "subnet_types" {
+  description = "Subnet types corresponding to subnet CIDRs ('public'/'private')"
+  type        = list(string)
+  validation {
+    condition     = alltrue([for t in var.subnet_types : contains(["public", "private"], t)])
+    error_message = "Subnet types must be either 'public' or 'private'."
+  }
+}
 //igw.tf
 
-variable "routes" {
-  description = "A list of routes (cidr_block, network_interface_id)"
+variable "public_routes" {
+  description = "A list of public routes (cidr_block, network_interface_id)"
+  type = map(object({
+    cidr_block           = string
+    gateway_id           = optional(string)
+    nat_gateway_id       = optional(string)
+    network_interface_id = optional(string)
+    })
+  )
+  default = {}
+}
+
+variable "private_routes" {
+  description = "A list of private routes (cidr_block, network_interface_id)"
   type = map(object({
     cidr_block           = string
     gateway_id           = optional(string)
