@@ -15,12 +15,18 @@ output "subnet_ids" {
 
 output "public_subnet_ids" {
   description = "List of public subnet IDs"
-  value       = [for i, type in var.subnet_types : aws_subnet.subnet[i].id if type == "public"]
+  value = [
+    for k, v in local.subnet_with_type_index :
+    aws_subnet.subnet[k].id if v.type == "public"
+  ]
 }
 
 output "private_subnet_ids" {
   description = "List of private subnet IDs"
-  value       = [for i, type in var.subnet_types : aws_subnet.subnet[i].id if type == "private"]
+  value = [
+    for k, v in local.subnet_with_type_index :
+    aws_subnet.subnet[k].id if v.type == "private"
+  ]
 }
 
 output "security_group_id" {

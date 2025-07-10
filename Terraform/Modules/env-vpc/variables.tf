@@ -104,7 +104,6 @@ variable "ingress_rules" {
 variable "peering_connections" {
   description = "List of peering connections"
   type = map(object({
-    vpc_id      = string
     peer_vpc_id = string
     auto_accept = optional(string, false) //think is required to be false
   }))

@@ -84,14 +84,20 @@ resource "aws_route" "private_route" {
 }
 
 resource "aws_route_table_association" "public_route_table_association" {
-
-  for_each       = { for i, type in var.subnet_types : i => type if type == "public" }
+  for_each = {
+    for k, v in local.subnet_with_type_index : k => v
+    if v.type == "public"
+  }
   subnet_id      = aws_subnet.subnet[each.key].id
   route_table_id = aws_route_table.public_route_table.id
 }
 
 resource "aws_route_table_association" "private_route_table_association" {
-  for_each       = { for i, type in var.subnet_types : i => type if type == "private" }
+  for_each = {
+    for k, v in local.subnet_with_type_index : k => v
+    if v.type == "private"
+  }
+
   subnet_id      = aws_subnet.subnet[each.key].id
   route_table_id = aws_route_table.private_route_table.id
 }
